@@ -1,7 +1,7 @@
 pkgbase = nvidia-bede
 	pkgdesc = NVIDIA drivers for linux-bede
 	pkgver = 325.15
-	pkgrel = 9
+	pkgrel = 10
 	url = http://www.nvidia.com/
 	install = nvidia.install
 	arch = i686
