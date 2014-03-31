@@ -1,26 +1,28 @@
 pkgbase = nvidia-bede
 	pkgdesc = NVIDIA drivers for linux-bede
 	pkgver = 334.21
-	pkgrel = 3
+	pkgrel = 4
 	url = http://www.nvidia.com/
 	install = nvidia.install
 	arch = i686
 	arch = x86_64
 	license = custom
-	makedepends = linux-bede>=3.13.7
-	makedepends = linux-bede<3.14
-	makedepends = linux-bede-headers>=3.13
-	makedepends = linux-bede-headers<3.14
+	makedepends = linux-bede>=3.14
+	makedepends = linux-bede<3.15
+	makedepends = linux-bede-headers>=3.14
+	makedepends = linux-bede-headers<3.15
 	makedepends = nvidia-utils=334.21
 	makedepends = nvidia-libgl=334.21
 	conflicts = nvidia-96xx
 	conflicts = nvidia-173xx
 	replaces = nvidia-bemm
 	options = !strip
+	source = nvidia-linux-3.14.patch
+	sha256sums = 5f0fe6be7c610e61a7e3cd45b98581cd3285ceb8469a7b2e3629e7a95f641126
 
 pkgname = nvidia-bede
-	depends = linux-bede>=3.13
-	depends = linux-bede<3.14
+	depends = linux-bede>=3.14
+	depends = linux-bede<3.15
 	depends = nvidia-utils=334.21
 	depends = nvidia-libgl=334.21
 
