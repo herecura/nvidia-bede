@@ -1,13 +1,13 @@
 pkgbase = nvidia-bede
 	pkgdesc = NVIDIA drivers for linux-bede
 	pkgver = 340.24
-	pkgrel = 2
+	pkgrel = 3
 	url = http://www.nvidia.com/
 	install = nvidia.install
 	arch = i686
 	arch = x86_64
 	license = custom
-	makedepends = linux-bede>=3.15.6
+	makedepends = linux-bede>=3.15.7
 	makedepends = linux-bede<3.16
 	makedepends = linux-bede-headers>=3.15
 	makedepends = linux-bede-headers<3.16
