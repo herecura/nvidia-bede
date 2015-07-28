@@ -5,17 +5,20 @@
 _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=352.21
-_extramodules=4.1-BEDE-external
-pkgrel=10
+_extramodules=4.2-BEDE-external
+pkgrel=10.1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
-makedepends=('linux-bede>=4.1.3-4' 'linux-bede<4.2' 'linux-bede-headers>=4.1' 'linux-bede-headers<4.2' "nvidia-utils=$pkgver" "nvidia-libgl=$pkgver")
+makedepends=('linux-bede>=4.2rc1' 'linux-bede<4.3' 'linux-bede-headers>=4.2rc1' 'linux-bede-headers<4.3' "nvidia-utils=$pkgver" "nvidia-libgl=$pkgver")
 conflicts=('nvidia')
 provides=('nvidia')
 license=('custom')
 install=nvidia.install
 options=(!strip)
+
+source=("nvidia-4.2.patch")
+sha256sums=('01fe34a2eeb88057d51849098966e202f1ab94e548afe85ef25f533c8375e3c3')
 
 source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
 source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
@@ -31,6 +34,7 @@ prepare() {
     sh $_pkg.run --extract-only
     cd $_pkg
     # patch if needed
+    patch -Np1 -i ${srcdir}/nvidia-4.2.patch
 }
 
 build() {
@@ -45,7 +49,7 @@ build() {
 }
 
 package() {
-    depends=('linux-bede>=4.1' 'linux-bede<4.2' "nvidia-utils=${pkgver}" "nvidia-libgl=$pkgver")
+    depends=('linux-bede>=4.2rc1' 'linux-bede<4.3' "nvidia-utils=${pkgver}" "nvidia-libgl=$pkgver")
 
     install -Dm644 "$srcdir/$_pkg/kernel/nvidia.ko" \
         "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia.ko"
