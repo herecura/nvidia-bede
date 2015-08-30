@@ -6,7 +6,7 @@ _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=352.41
 _extramodules=4.2-BEDE-external
-pkgrel=4.2
+pkgrel=1.1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
@@ -18,11 +18,10 @@ install=nvidia.install
 options=(!strip)
 
 source=("nvidia-4.2.patch")
-sha256sums=('01fe34a2eeb88057d51849098966e202f1ab94e548afe85ef25f533c8375e3c3')
-
 source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
 source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
 
+sha256sums=('01fe34a2eeb88057d51849098966e202f1ab94e548afe85ef25f533c8375e3c3')
 sha256sums_i686=('b3fc5af7bb2852305272ffb3d5d73fbfba639d6a2af9e34a007dde3c6133f6e3')
 sha256sums_x86_64=('a67cca72f7de2b5a8d822001b5a78012373989a97388fe9eff56a75e6cad30cd')
 
