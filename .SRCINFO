@@ -1,7 +1,7 @@
 pkgbase = nvidia-bede
 	pkgdesc = NVIDIA drivers for linux-bede
 	pkgver = 355.11
-	pkgrel = 6
+	pkgrel = 7
 	url = http://www.nvidia.com/
 	install = nvidia.install
 	arch = i686
@@ -14,10 +14,7 @@ pkgbase = nvidia-bede
 	makedepends = nvidia-utils=355.11
 	makedepends = nvidia-libgl=355.11
 	provides = nvidia
-	conflicts = nvidia
 	options = !strip
-	source = nvidia-4.2.patch
-	sha256sums = beb9da74c9c4cb6cb2935d1c82094b17f7133a4553bca612d5dff3ed7921bf15
 	source_i686 = http://download.nvidia.com/XFree86/Linux-x86/355.11/NVIDIA-Linux-x86-355.11.run
 	sha256sums_i686 = 94ce6b879581b931b84d83a9111040b9a5aa9306b012b4380cd93f6ffede3066
 	source_x86_64 = http://download.nvidia.com/XFree86/Linux-x86_64/355.11/NVIDIA-Linux-x86_64-355.11-no-compat32.run
