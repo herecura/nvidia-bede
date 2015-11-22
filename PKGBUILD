@@ -4,7 +4,7 @@
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
-pkgver=355.11
+pkgver=358.16
 _extramodules=4.3-BEDE-external
 pkgrel=10.3
 pkgdesc="NVIDIA drivers for linux-bede"
