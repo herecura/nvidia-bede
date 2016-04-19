@@ -4,9 +4,9 @@
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
-pkgver=361.28
+pkgver=364.16
 _extramodules=4.5-BEDE-external
-pkgrel=9
+pkgrel=1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
@@ -16,25 +16,27 @@ license=('custom')
 install=nvidia.install
 options=(!strip)
 
-source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
-source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
-
-sha256sums_i686=('1a129b5953d68d813e3b61e9cf26c58df42a390d078a2d5e99fe1d261d4c7404')
-sha256sums_x86_64=('449db0a2817a0fb48e748f366ec5eee222023dcf1cfd7429b88ff2da6a1903cf')
+#source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
+#source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
+source_i686=("NVIDIA-Linux-x86-$pkgver.run::https://developer.nvidia.com/linux32bit")
+source_x86_64=("NVIDIA-Linux-x86_64-$pkgver-no-compat32.run::https://developer.nvidia.com/linux64bit")
+sha256sums_i686=('94ba58dcacf18ea08ae588c993af1075271fe43940ea7d555314896acb889b43')
+sha256sums_x86_64=('97b8067f072f945d032caa6fff938ac2a8c84481e82080b9c4a8e161a7d84c40')
 
 [[ "$CARCH" = "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
 [[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
+_folder=${_pkg//-no-compat32/}
 
 prepare() {
-    [ -d "$_pkg" ] && rm -rf "$_pkg"
+    [ -d "$_folder" ] && rm -rf "$_folder"
     sh $_pkg.run --extract-only
-    cd $_pkg
+    cd $_folder
     # patch if needed
 }
 
 build() {
     _kernver="$(cat /usr/lib/modules/$_extramodules/version)"
-    cd $_pkg/kernel
+    cd $_folder/kernel
     make SYSSRC=/usr/lib/modules/$_kernver/build module
 
 }
@@ -42,11 +44,11 @@ build() {
 package() {
     depends=('linux-bede>=4.5' 'linux-bede<4.6' "nvidia-utils=${pkgver}" "nvidia-libgl=$pkgver")
 
-    install -Dm644 "$srcdir/$_pkg/kernel/nvidia.ko" \
+    install -Dm644 "$srcdir/$_folder/kernel/nvidia.ko" \
         "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia.ko"
 
     if [[ "$CARCH" = "x86_64" ]]; then
-        install -D -m644 "${srcdir}/${_pkg}/kernel/nvidia-uvm.ko" \
+        install -D -m644 "${srcdir}/${_folder}/kernel/nvidia-uvm.ko" \
             "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia-uvm.ko"
     fi
 
