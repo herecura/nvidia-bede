@@ -6,11 +6,11 @@ _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=364.19
 _extramodules=4.5-BEDE-external
-pkgrel=2
+pkgrel=3
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
-makedepends=('linux-bede>=4.5.3' 'linux-bede<4.6' 'linux-bede-headers>=4.5' 'linux-bede-headers<4.6' "nvidia-utils=$pkgver" "nvidia-libgl=$pkgver")
+makedepends=('linux-bede>=4.5.4' 'linux-bede<4.6' 'linux-bede-headers>=4.5' 'linux-bede-headers<4.6' "nvidia-utils=$pkgver" "nvidia-libgl=$pkgver")
 provides=('nvidia')
 license=('custom')
 install=nvidia.install
