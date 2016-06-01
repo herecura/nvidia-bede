@@ -5,21 +5,23 @@
 _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=364.19
-_extramodules=4.5-BEDE-external
-pkgrel=5
+_extramodules=4.6-BEDE-external
+pkgrel=5.1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
-makedepends=('linux-bede>=4.5.5' 'linux-bede<4.6' 'linux-bede-headers>=4.5' 'linux-bede-headers<4.6' "nvidia-utils=$pkgver" "nvidia-libgl=$pkgver")
+makedepends=('linux-bede>=4.6' 'linux-bede<4.7' 'linux-bede-headers>=4.6' 'linux-bede-headers<4.7' "nvidia-utils=$pkgver" "nvidia-libgl=$pkgver")
 provides=('nvidia')
 license=('custom')
 install=nvidia.install
 options=(!strip)
 
+source=('linux-4.6.patch')
 source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
 source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
 #source_i686=("NVIDIA-Linux-x86-$pkgver.run::https://developer.nvidia.com/linux32bit")
 #source_x86_64=("NVIDIA-Linux-x86_64-$pkgver-no-compat32.run::https://developer.nvidia.com/linux64bit")
+sha256sums=('3ef569882f9fb7945014a75be88baf1a8ab6283f7b0eb0c1c17ee425bef0933c')
 sha256sums_i686=('9f891d4b22c43c9094b59af5c8474e29c70813110b346834a5cad81a224d4112')
 sha256sums_x86_64=('d7fcc78409d9ebc5663d1d925076199de2c64bbc16df84d9ed783f8f873e8c5d')
 
@@ -33,6 +35,7 @@ prepare() {
     sh $_pkg.run --extract-only
     cd $_folder
     # patch if needed
+    patch -p1 -i "$srcdir/linux-4.6.patch"
 }
 
 build() {
@@ -43,7 +46,7 @@ build() {
 }
 
 package() {
-    depends=('linux-bede>=4.5' 'linux-bede<4.6' "nvidia-utils=${pkgver}" "nvidia-libgl=$pkgver")
+    depends=('linux-bede>=4.6' 'linux-bede<4.7' "nvidia-utils=${pkgver}" "nvidia-libgl=$pkgver")
 
     install -Dm644 "$srcdir/$_folder/kernel/nvidia.ko" \
         "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia.ko"
