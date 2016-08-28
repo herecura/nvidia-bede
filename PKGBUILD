@@ -4,11 +4,11 @@
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
-pkgver=367.35
+pkgver=370.23
 _extramodules=4.7-BEDE-external
 _current_linux_version=4.7.2
 _next_linux_version=4.8
-pkgrel=5
+pkgrel=1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
@@ -25,18 +25,14 @@ license=('custom')
 install=nvidia.install
 options=(!strip)
 
-source=(
-    'linux-4.7.patch'
-    'linux-4.7.x86_64.patch'
-)
+source=('fix-abi.patch')
 source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
 source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
 #source_i686=("NVIDIA-Linux-x86-$pkgver.run::https://developer.nvidia.com/linux32bit")
 #source_x86_64=("NVIDIA-Linux-x86_64-$pkgver-no-compat32.run::https://developer.nvidia.com/linux64bit")
-sha256sums=('5a934a8ad03c7d0f61d3b1e863292bc9fefbbd3a4d60067b7d8adced42f7260d'
-            'a79bd6f843e83ff56fad78d5ef34bcc5e28cde318f5b5cd40c074f408183b4dc')
-sha256sums_i686=('38cb22fa85ef74ea960d3e5d644838cd961984ffc32bb0d052414cc7fa32e315')
-sha256sums_x86_64=('8a6c554e9315e31e09d73fd60223ee4fbbe5507cd04c2e041c868a2080439354')
+sha256sums=('51317ed14937e934fdc13f814f36804275265d0912cce45714e1e4c9e911b3bb')
+sha256sums_i686=('7a275413a3709ef11649ed65d07bae92368c0a1b754fec5c9f9769e516a19263')
+sha256sums_x86_64=('6c462f240ed434a1bb64b7b82a325c63b9056cc135dfe6d54473c9afedbf9693')
 
 [[ "$CARCH" = "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
 [[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
@@ -48,17 +44,13 @@ prepare() {
     sh $_pkg.run --extract-only
     cd $_folder
     # patch if needed
-    patch -p1 -i "$srcdir/linux-4.7.patch"
-    if [[ "$CARCH" = "x86_64" ]]; then
-        patch -p1 -i "$srcdir/linux-4.7.x86_64.patch"
-    fi
+    patch -p0 -i "$srcdir/fix-abi.patch"
 }
 
 build() {
     _kernver="$(cat /usr/lib/modules/$_extramodules/version)"
     cd $_folder/kernel
     make SYSSRC=/usr/lib/modules/$_kernver/build module
-
 }
 
 package() {
@@ -71,6 +63,10 @@ package() {
 
     install -Dm644 "$srcdir/$_folder/kernel/nvidia.ko" \
         "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia.ko"
+    install -Dm644 "$srcdir/$_folder/kernel/nvidia-modeset.ko" \
+        "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia-modeset.ko"
+    install -Dm644 "$srcdir/$_folder/kernel/nvidia-drm.ko" \
+        "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia-drm.ko"
 
     if [[ "$CARCH" = "x86_64" ]]; then
         install -D -m644 "${srcdir}/${_folder}/kernel/nvidia-uvm.ko" \
