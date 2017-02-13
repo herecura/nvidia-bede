@@ -6,9 +6,9 @@ _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=375.26
 _extramodules=4.10-BEDE-external
-_current_linux_version=4.10rc7
+_current_linux_version=4.10rc8
 _next_linux_version=4.11
-pkgrel=13
+pkgrel=14
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
@@ -18,7 +18,6 @@ makedepends=(
     "linux-bede<$_next_linux_version"
     "linux-bede-headers<$_next_linux_version"
     "nvidia-utils=$pkgver"
-    "nvidia-libgl=$pkgver"
 )
 provides=('nvidia')
 license=('custom')
@@ -61,7 +60,6 @@ package() {
         "linux-bede>=$_current_linux_version"
         "linux-bede<$_next_linux_version"
         "nvidia-utils=$pkgver"
-        "nvidia-libgl=$pkgver"
     )
 
     install -Dm644 "$srcdir/$_folder/kernel/nvidia.ko" \
