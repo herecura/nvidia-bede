@@ -1,6 +1,6 @@
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/common/inc/nv-linux.h NVIDIA-Linux-x86_64-375.26.patched/kernel/common/inc/nv-linux.h
---- NVIDIA-Linux-x86_64-375.26/kernel/common/inc/nv-linux.h	2016-12-09 02:17:49.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/common/inc/nv-linux.h	2016-12-31 10:55:17.637374373 +0100
+diff -ur NVIDIA-Linux-x86_64-378.13/kernel/common/inc/nv-linux.h NVIDIA-Linux-x86_64-378.13.patched/kernel/common/inc/nv-linux.h
+--- NVIDIA-Linux-x86_64-378.13/kernel/common/inc/nv-linux.h	2017-02-08 04:58:34.000000000 +0100
++++ NVIDIA-Linux-x86_64-378.13.patched/kernel/common/inc/nv-linux.h	2017-02-15 04:14:46.304110124 +0100
 @@ -294,7 +294,8 @@
  
  extern int nv_pat_mode;
@@ -11,22 +11,9 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/common/inc/nv-linux.h NVIDIA-Linux-x8
  #define NV_ENABLE_HOTPLUG_CPU
  #include <linux/cpu.h>              /* CPU hotplug support              */
  #include <linux/notifier.h>         /* struct notifier_block, etc       */
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/common/inc/nv-mm.h NVIDIA-Linux-x86_64-375.26.patched/kernel/common/inc/nv-mm.h
---- NVIDIA-Linux-x86_64-375.26/kernel/common/inc/nv-mm.h	2016-12-09 02:17:49.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/common/inc/nv-mm.h	2016-12-15 11:51:32.638165272 +0100
-@@ -83,7 +83,7 @@
-             if (force)
-                 flags |= FOLL_FORCE;
- 
--            return get_user_pages_remote(tsk, mm, start, nr_pages, flags, pages, vmas);
-+            return get_user_pages_remote(tsk, mm, start, nr_pages, flags, pages, vmas, NULL);
-         }
-     #endif
- #else
-Only in NVIDIA-Linux-x86_64-375.26.patched/kernel: nv_compiler.h
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia/nv-p2p.c NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia/nv-p2p.c
---- NVIDIA-Linux-x86_64-375.26/kernel/nvidia/nv-p2p.c	2016-12-09 02:17:49.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia/nv-p2p.c	2016-12-15 11:51:32.638165272 +0100
+diff -ur NVIDIA-Linux-x86_64-378.13/kernel/nvidia/nv-p2p.c NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia/nv-p2p.c
+--- NVIDIA-Linux-x86_64-378.13/kernel/nvidia/nv-p2p.c	2017-02-08 04:58:34.000000000 +0100
++++ NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia/nv-p2p.c	2017-02-15 04:14:46.304110124 +0100
 @@ -146,7 +146,7 @@
  int nvidia_p2p_get_pages(
      uint64_t p2p_token,
@@ -72,21 +59,9 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia/nv-p2p.c NVIDIA-Linux-x86_64-3
              page_table->gpu_uuid, page_table);
      if (status == NV_OK)
          nvidia_p2p_free_page_table(page_table);
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia/nv-pat.c NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia/nv-pat.c
---- NVIDIA-Linux-x86_64-375.26/kernel/nvidia/nv-pat.c	2016-12-09 02:17:49.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia/nv-pat.c	2016-12-31 10:45:47.380405916 +0100
-@@ -217,7 +217,7 @@
-             else
-                 NV_SMP_CALL_FUNCTION(nv_setup_pat_entries, hcpu, 1);
-             break;
--        case CPU_DOWN_PREPARE:
-+        case CPU_DOWN_PREPARE_FROZEN:
-             if (cpu == (NvUPtr)hcpu)
-                 nv_restore_pat_entries(NULL);
-             else
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-fence.c
---- NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c	2016-12-09 02:13:39.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-fence.c	2016-12-15 11:51:32.638165272 +0100
+diff -ur NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-fence.c
+--- NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-fence.c	2017-02-08 04:58:37.000000000 +0100
++++ NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-fence.c	2017-02-15 04:14:46.304110124 +0100
 @@ -31,7 +31,7 @@
  
  #if defined(NV_DRM_DRIVER_HAS_GEM_PRIME_RES_OBJ)
@@ -141,7 +116,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
      {
          return false;
      }
-@@ -132,7 +132,7 @@
+@@ -136,7 +136,7 @@
      }
  
      nv_gem->fenceContext.softFence = fence;
@@ -150,7 +125,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
  
  unlock_struct_mutex:
      mutex_unlock(&nv_dev->dev->struct_mutex);
-@@ -142,7 +142,7 @@
+@@ -146,7 +146,7 @@
  
  static void nvidia_drm_gem_prime_fence_op_release
  (
@@ -159,7 +134,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
  )
  {
      struct nv_fence *nv_fence = container_of(fence, struct nv_fence, base);
-@@ -151,7 +151,7 @@
+@@ -155,7 +155,7 @@
  
  static signed long nvidia_drm_gem_prime_fence_op_wait
  (
@@ -168,7 +143,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
      bool intr,
      signed long timeout
  )
-@@ -166,12 +166,12 @@
+@@ -170,12 +170,12 @@
       * that it should never get hit during normal operation, but not so long
       * that the system becomes unresponsive.
       */
@@ -183,7 +158,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
      .get_driver_name = nvidia_drm_gem_prime_fence_op_get_driver_name,
      .get_timeline_name = nvidia_drm_gem_prime_fence_op_get_timeline_name,
      .signaled = nvidia_drm_gem_prime_fence_op_signaled,
-@@ -281,7 +281,7 @@
+@@ -285,7 +285,7 @@
      bool force
  )
  {
@@ -192,7 +167,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
  
      WARN_ON(!mutex_is_locked(&nv_dev->dev->struct_mutex));
  
-@@ -297,10 +297,10 @@
+@@ -301,10 +301,10 @@
  
          if (force || nv_fence_ready_to_signal(nv_fence))
          {
@@ -205,7 +180,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
  
              nvKms->disableChannelEvent(nv_dev->pDevice,
                                         nv_gem->fenceContext.cb);
-@@ -316,7 +316,7 @@
+@@ -320,7 +320,7 @@
  
          nv_fence = container_of(fence, struct nv_fence, base);
  
@@ -214,7 +189,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
      }
  }
  
-@@ -509,7 +509,7 @@
+@@ -513,7 +513,7 @@
       * fence_context_alloc() cannot fail, so we do not need to check a return
       * value.
       */
@@ -223,7 +198,7 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
  
      ret = nvidia_drm_gem_prime_fence_import_semaphore(
                nv_dev, nv_gem, p->index,
-@@ -666,13 +666,13 @@
+@@ -670,7 +670,7 @@
      nv_fence->nv_gem = nv_gem;
  
      spin_lock_init(&nv_fence->lock);
@@ -232,6 +207,8 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
                 &nv_fence->lock, nv_gem->fenceContext.context,
                 p->sem_thresh);
  
+@@ -680,7 +680,7 @@
+ 
      reservation_object_add_excl_fence(&nv_gem->fenceContext.resv,
                                        &nv_fence->base);
 -    fence_put(&nv_fence->base); /* Reservation object has reference */
@@ -239,10 +216,10 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-fence.c NVIDIA-
  
      ret = 0;
  
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-gem.h NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-gem.h
---- NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-gem.h	2016-12-09 02:13:39.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-gem.h	2016-12-15 11:51:32.638165272 +0100
-@@ -98,7 +98,7 @@
+diff -ur NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-gem.h NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-gem.h
+--- NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-gem.h	2017-02-08 04:58:37.000000000 +0100
++++ NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-gem.h	2017-02-15 04:14:46.304110124 +0100
+@@ -101,7 +101,7 @@
          /* Software signaling structures */
          struct NvKmsKapiChannelEvent *cb;
          struct nvidia_drm_gem_prime_soft_fence_event_args *cbArgs;
@@ -251,10 +228,10 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-gem.h NVIDIA-Li
      } fenceContext;
  #endif
  };
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-modeset.c NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-modeset.c
---- NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-modeset.c	2016-12-09 02:13:39.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-modeset.c	2016-12-15 11:51:32.638165272 +0100
-@@ -69,8 +69,7 @@
+diff -ur NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-modeset.c NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-modeset.c
+--- NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-modeset.c	2017-02-08 04:58:37.000000000 +0100
++++ NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-modeset.c	2017-02-15 04:14:46.305110124 +0100
+@@ -78,8 +78,7 @@
  
  void nvidia_drm_atomic_state_free(struct drm_atomic_state *state)
  {
@@ -264,27 +241,9 @@ diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-modeset.c NVIDI
      drm_atomic_state_default_release(state);
      nvidia_drm_free(nv_state);
  }
-@@ -645,7 +644,7 @@
- 
-     wake_up_all(&nv_dev->pending_commit_queue);
- 
--    drm_atomic_state_free(state);
-+    drm_atomic_state_put(state);
- 
- #if !defined(NV_DRM_MODE_CONFIG_FUNCS_HAS_ATOMIC_STATE_ALLOC)
-     nvidia_drm_free(requested_config);
-@@ -983,7 +982,7 @@
-      * drm_atomic_commit().
-      */
-     if (ret != 0) {
--        drm_atomic_state_free(state);
-+        drm_atomic_state_put(state);
-     }
- 
-     drm_modeset_unlock_all(dev);
-diff -ur NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-priv.h NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-priv.h
---- NVIDIA-Linux-x86_64-375.26/kernel/nvidia-drm/nvidia-drm-priv.h	2016-12-09 02:13:39.000000000 +0100
-+++ NVIDIA-Linux-x86_64-375.26.patched/kernel/nvidia-drm/nvidia-drm-priv.h	2016-12-15 11:51:32.638165272 +0100
+diff -ur NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-priv.h NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-priv.h
+--- NVIDIA-Linux-x86_64-378.13/kernel/nvidia-drm/nvidia-drm-priv.h	2017-02-08 04:58:37.000000000 +0100
++++ NVIDIA-Linux-x86_64-378.13.patched/kernel/nvidia-drm/nvidia-drm-priv.h	2017-02-15 04:14:46.305110124 +0100
 @@ -34,7 +34,7 @@
  #endif
  
