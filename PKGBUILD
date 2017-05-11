@@ -4,11 +4,11 @@
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
-pkgver=378.13
+pkgver=381.22
 _extramodules=4.11-BEDE-external
 _current_linux_version=4.11
 _next_linux_version=4.12
-pkgrel=23.3
+pkgrel=1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
@@ -23,16 +23,10 @@ provides=('nvidia')
 license=('custom')
 options=(!strip)
 
-source=(
-    'linux-4.11.patch'
-    'linux-4.11-x86_64.patch'
-)
 source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
 source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
-sha512sums=('b65fea54a9b46231a6cb138798cf72e95009d93486499580fac0660e976f60a2932dd60b1fac8662e64f7df913a4fd248f0739966fdf676624ba0c4d4ff16787'
-            'd91bba6db2fa1c550ef6f8cc5989af712df5f4e2e9adcd2b7192e8433add1b0b81b6e169026fe6abb449dd5c42f3546960531603d656a6b1dd17eebd61c5ef8e')
-sha512sums_i686=('b96d2558a1003a3c66cade3a1e16abd34d855c0e27cdebacdc0495e0ba3cd5c68bb84cc5f81bff1b9ddce36ac52e0dc125c56d868b77d7c8e2f606d559b13b4a')
-sha512sums_x86_64=('b0ee6f1859d21e8f619e89fb75f2ace64bad5ba4852bc1b8a6148144fb2a917735a8272c0e528a8040b4d0db31a8203c6f698ea83c5cef41d8818d621d55eee3')
+sha512sums_i686=('15723bfa25b0f39224ad5098c784a292abe4bf1daafaeb2f1df910bbab466e666b848b12e50b0bdd45f83e2d81957425a63501550b3dc5eb8fe3e576a8a10d22')
+sha512sums_x86_64=('c40214725d8b02dab2596fb5b8d22033fbd15b29ccb8d0c789a049e3251b301c5001b778b29958f8d424625b42d4dedf3f70a47493ea8c67c63060c0b54dc7b5')
 
 [[ "$CARCH" == "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
 [[ "$CARCH" == "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
@@ -44,10 +38,6 @@ prepare() {
     sh $_pkg.run --extract-only
     cd $_folder
     # patch if needed
-    patch -p1 --no-backup-if-mismatch -i "$srcdir/linux-4.11.patch"
-    if [[ "$CARCH" == "x86_64" ]]; then
-        patch -p1 --no-backup-if-mismatch -i "$srcdir/linux-4.11-x86_64.patch"
-    fi
 }
 
 build() {
