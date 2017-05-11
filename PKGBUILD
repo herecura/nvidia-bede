@@ -4,11 +4,11 @@
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
-pkgver=378.13
+pkgver=381.22
 _extramodules=4.10-BEDE-external
 _current_linux_version=4.10.15
 _next_linux_version=4.11
-pkgrel=24
+pkgrel=1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
@@ -23,16 +23,14 @@ provides=('nvidia')
 license=('custom')
 options=(!strip)
 
-source=(
-    'NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8.patch'
-    'NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8-x86_64.patch'
-)
+#source=(
+    #'NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8.patch'
+    #'NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8-x86_64.patch'
+#)
 source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
 source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
-sha512sums=('0b5c0ae678d5e453d473f0b206c204f8ee4c17b4a120b54be67703811ad865f55497e0e5b420ce175dc529afd66392d6dc8a8c84187aeae71490466bc1bd7686'
-            '89ffaf92041e9548e20bbe7ea595365790931e80dec1c026a7a52df1592bb366a9a133b9d3e82baf322b6eb9321e92b2b06f7219afbfabc4f54851cbb7716008')
-sha512sums_i686=('b96d2558a1003a3c66cade3a1e16abd34d855c0e27cdebacdc0495e0ba3cd5c68bb84cc5f81bff1b9ddce36ac52e0dc125c56d868b77d7c8e2f606d559b13b4a')
-sha512sums_x86_64=('b0ee6f1859d21e8f619e89fb75f2ace64bad5ba4852bc1b8a6148144fb2a917735a8272c0e528a8040b4d0db31a8203c6f698ea83c5cef41d8818d621d55eee3')
+sha512sums_i686=('15723bfa25b0f39224ad5098c784a292abe4bf1daafaeb2f1df910bbab466e666b848b12e50b0bdd45f83e2d81957425a63501550b3dc5eb8fe3e576a8a10d22')
+sha512sums_x86_64=('c40214725d8b02dab2596fb5b8d22033fbd15b29ccb8d0c789a049e3251b301c5001b778b29958f8d424625b42d4dedf3f70a47493ea8c67c63060c0b54dc7b5')
 
 [[ "$CARCH" = "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
 [[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
@@ -44,10 +42,10 @@ prepare() {
     sh $_pkg.run --extract-only
     cd $_folder
     # patch if needed
-    patch -p1 -i "$srcdir/NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8.patch"
-    if [[ "$CARCH" = "x86_64" ]];
-       then patch -p1 -i "$srcdir/NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8-x86_64.patch"
-    fi
+    #patch -p1 -i "$srcdir/NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8.patch"
+    #if [[ "$CARCH" = "x86_64" ]];
+       #then patch -p1 -i "$srcdir/NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8-x86_64.patch"
+    #fi
 }
 
 build() {
