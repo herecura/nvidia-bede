@@ -23,10 +23,6 @@ provides=('nvidia')
 license=('custom')
 options=(!strip)
 
-#source=(
-    #'NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8.patch'
-    #'NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8-x86_64.patch'
-#)
 source_i686=("http://download.nvidia.com/XFree86/Linux-x86/$pkgver/NVIDIA-Linux-x86-$pkgver.run")
 source_x86_64=("http://download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run")
 sha512sums_i686=('15723bfa25b0f39224ad5098c784a292abe4bf1daafaeb2f1df910bbab466e666b848b12e50b0bdd45f83e2d81957425a63501550b3dc5eb8fe3e576a8a10d22')
@@ -42,10 +38,6 @@ prepare() {
     sh $_pkg.run --extract-only
     cd $_folder
     # patch if needed
-    #patch -p1 -i "$srcdir/NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8.patch"
-    #if [[ "$CARCH" = "x86_64" ]];
-       #then patch -p1 -i "$srcdir/NVIDIA-Linux-x86_64-378.13-kernel-4.10-rc8-x86_64.patch"
-    #fi
 }
 
 build() {
