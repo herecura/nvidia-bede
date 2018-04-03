@@ -8,7 +8,7 @@ pkgver=390.48
 _extramodules=4.16-BEDE-external
 _current_linux_version=4.16
 _next_linux_version=4.17
-pkgrel=2.1
+pkgrel=2.2
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -29,7 +29,7 @@ source=(
     'linux-4.16.patch'
 )
 sha512sums=('40e1f991d931d5ea1eccda68bffa7bd872eb75c158c6a54f84b5a24274112b9a26e68caeecf6ca0e543edcec917a5ed717bd83281c4a86ac649d3c73f1386966'
-            '952c3df32a26150b807ae4a8f026127610e9c7aa5d021747b60893fc6cdebadf4db511209c3fe14b98ce7dacbde89341187a5a315b51a894df375d4b95ba8e29')
+            '25c916b1adc1957986d75e60ab1fce5e37bcb5a012618b66e3d647da9fdb453888a1707d2c73224338cb488fa7d51f5b8d08a2b0810316457ff62404e9c1e4a7')
 
 [[ "$CARCH" == "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
 #_folder=${_pkg//-no-compat32/}
