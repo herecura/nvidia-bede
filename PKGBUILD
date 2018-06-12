@@ -1,14 +1,13 @@
-# vim:set ft=sh et:
 # Maintainer : BlackEagle < ike DOT devolder AT gmail DOT com >
 # Contributor: Thomas Baechler <thomas@archlinux.org>
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=396.24
-_extramodules=4.16-BEDE-external
-_current_linux_version=4.16.14
-_next_linux_version=4.17
-pkgrel=13
+_extramodules=4.17-BEDE-external
+_current_linux_version=4.17.1
+_next_linux_version=4.18
+pkgrel=15
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('x86_64')
 url="http://www.nvidia.com/"
