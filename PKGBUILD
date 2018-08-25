@@ -3,11 +3,11 @@
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
-pkgver=396.51
+pkgver=396.54
 _extramodules=4.18-BEDE-external
-_current_linux_version=4.18.4
+_current_linux_version=4.18.5
 _next_linux_version=4.19
-pkgrel=7
+pkgrel=1
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -27,7 +27,7 @@ source=(
     "http://us.download.nvidia.com/XFree86/Linux-x86_64/$pkgver/NVIDIA-Linux-x86_64-$pkgver-no-compat32.run"
     'linux-4.16.patch'
 )
-sha512sums=('1cf0f3e96d323595816abc5629fae787b049129d5d99c969da8972794043b915b64a6cae417b8d2493d9d9e10b47146b87769a9e2462b6cbae7611a50c487756'
+sha512sums=('0aecd51c1571fec40b7015f01efa3f038968813034e5fccce846d18793d2627ba483d8aac6d5d2852601f1fb11f000254cc47eaa33f1803fed45aed191676f2b'
             '25c916b1adc1957986d75e60ab1fce5e37bcb5a012618b66e3d647da9fdb453888a1707d2c73224338cb488fa7d51f5b8d08a2b0810316457ff62404e9c1e4a7')
 
 [[ "$CARCH" == "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
