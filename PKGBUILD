@@ -7,7 +7,7 @@ pkgver=435.21
 _extramodules=5.3-BEDE-external
 _current_linux_version=5.3.9
 _next_linux_version=5.4
-pkgrel=16
+pkgrel=17
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -40,9 +40,8 @@ prepare() {
 }
 
 build() {
-    _kernver="$(cat /usr/lib/modules/$_extramodules/version)"
     cd $_folder/kernel
-    make SYSSRC=/usr/lib/modules/$_kernver/build module
+    make SYSSRC=/usr/src/linux-bede
 }
 
 package() {
@@ -52,16 +51,17 @@ package() {
         "nvidia-utils=$pkgver"
     )
 
+    local extradir="/usr/lib/modules/$(</usr/src/linux-bede/version)/extramodules"
     install -Dm644 "$srcdir/$_folder/kernel/nvidia.ko" \
-        "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia.ko"
+        "${pkgdir}${extradir}/$_pkgname/nvidia.ko"
     install -Dm644 "$srcdir/$_folder/kernel/nvidia-modeset.ko" \
-        "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia-modeset.ko"
+        "${pkgdir}${extradir}/$_pkgname/nvidia-modeset.ko"
     install -Dm644 "$srcdir/$_folder/kernel/nvidia-drm.ko" \
-        "$pkgdir/usr/lib/modules/$_extramodules/$_pkgname/nvidia-drm.ko"
+        "${pkgdir}${extradir}/$_pkgname/nvidia-drm.ko"
 
     if [[ "$CARCH" = "x86_64" ]]; then
         install -D -m644 "${srcdir}/${_folder}/kernel/nvidia-uvm.ko" \
-            "${pkgdir}/usr/lib/modules/${_extramodules}/$_pkgname/nvidia-uvm.ko"
+            "${pkgdir}${extradir}/$_pkgname/nvidia-uvm.ko"
     fi
 
     install -dm755 "$pkgdir/usr/lib/modprobe.d"
