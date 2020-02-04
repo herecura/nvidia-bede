@@ -4,7 +4,7 @@
 
 _pkgname=nvidia
 pkgname=$_pkgname-bede
-pkgver=440.48.02
+pkgver=440.59
 _current_linux_version=5.5.1
 _next_linux_version=5.6
 pkgrel=1
@@ -41,4 +41,5 @@ package() {
     echo "blacklist nouveau" >> "$pkgdir/usr/lib/modprobe.d/$pkgname.conf"
     echo "blacklist nvidiafb" >> "$pkgdir/usr/lib/modprobe.d/$pkgname.conf"
 }
+
 
