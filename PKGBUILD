@@ -5,9 +5,9 @@
 _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=440.59
-_current_linux_version=5.5.5
+_current_linux_version=5.5.6
 _next_linux_version=5.6
-pkgrel=5
+pkgrel=6
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -41,6 +41,7 @@ package() {
     echo "blacklist nouveau" >> "$pkgdir/usr/lib/modprobe.d/$pkgname.conf"
     echo "blacklist nvidiafb" >> "$pkgdir/usr/lib/modprobe.d/$pkgname.conf"
 }
+
 
 
 
