@@ -5,9 +5,9 @@
 _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=440.82
-_current_linux_version=5.6.2
+_current_linux_version=5.6.3
 _next_linux_version=5.7
-pkgrel=1
+pkgrel=2
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -23,7 +23,7 @@ provides=('nvidia')
 license=('custom')
 options=(!strip)
 source=()
-sha512sums=()
+
 
 # in case we need to do some patching
 #build() {
