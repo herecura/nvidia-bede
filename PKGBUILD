@@ -5,9 +5,9 @@
 _pkgname=nvidia
 pkgname=$_pkgname-bede
 pkgver=440.82
-_current_linux_version=5.7rc7
+_current_linux_version=5.7
 _next_linux_version=5.8
-pkgrel=19
+pkgrel=21
 pkgdesc="NVIDIA drivers for linux-bede"
 arch=('x86_64')
 url="http://www.nvidia.com/"
